@@ -1,0 +1,78 @@
+# Base image
+FROM nvidia/cuda:13.0.1-cudnn-devel-ubuntu24.04 AS base
+
+# Set noninteractive mode for apt
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Update and install dependencies
+RUN apt-get update && \
+    apt-get install -y libxcb-xfixes0 libxcb-shape0 ffmpeg pipx git wget curl ca-certificates python3 python3-pip python3-venv ffmpeg git bzip2 && \
+    apt --fix-broken install -y && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# Install miniconda
+ENV CONDA_DIR=/opt/conda
+RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh && \
+    /bin/bash ~/miniconda.sh -b -p /opt/conda
+# Put conda in path so we can use conda activate
+ENV PATH=$CONDA_DIR/bin:$PATH
+# Accept TOS
+RUN conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/main && \
+    conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/r
+
+
+
+# Copy requirements and install common dependencies
+COPY . /openllm-vtuber
+WORKDIR /openllm-vtuber
+
+
+
+# Create venv
+ENV PATH="openllm-vtuber/bin:$PATH"
+RUN conda create -n openllm-vtuber python=3.10 pip=24.0 -y && \
+    conda init
+
+# Make RUN commands use the new environment:
+SHELL ["conda", "run", "-n", "openllm-vtuber", "/bin/bash", "-c"]
+
+# Install requirements
+RUN pip install -r requirements.txt 
+RUN pip install funasr modelscope huggingface_hub pywhispercpp torch torchaudio edge-tts azure-cognitiveservices-speech py3-tts
+
+# MeloTTS installation
+WORKDIR /opt/MeloTTS
+RUN git clone https://github.com/myshell-ai/MeloTTS.git /opt/MeloTTS 
+RUN pip install -r requirements.txt
+RUN pip install -e .
+RUN python3 -m unidic download 
+RUN python3 melo/init_downloads.py
+
+# Whisper variant
+FROM base AS whisper
+ARG INSTALL_ORIGINAL_WHISPER=false
+RUN if [ "$INSTALL_WHISPER" = "true" ]; then \
+        pip install openai-whisper; \
+    fi
+
+# Bark variant
+FROM whisper AS bark
+ARG INSTALL_BARK=false
+RUN if [ "$INSTALL_BARK" = "true" ]; then \
+        pip install git+https://github.com/suno-ai/bark.git; \
+    fi
+
+# Final image
+FROM bark AS final
+
+# Copy application code to the container
+COPY . /app
+
+# Set working directory
+WORKDIR /app
+
+# Expose port 12393 (the new default port)
+EXPOSE 12393
+
+CMD ["python3", "run_server.py"]

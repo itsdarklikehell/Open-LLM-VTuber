@@ -5,11 +5,11 @@ FROM nvidia/cuda:13.0.1-cudnn-devel-ubuntu24.04 AS base
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Update and install dependencies
-RUN apt-get -o Acquire::AllowInsecureRepositories=true update && \
-    apt-get install -y libxcb-xfixes0 libxcb-shape0 || true && \
-    apt-get install -y --no-install-recommends ffmpeg pipx git curl python3 python3-pip || true && \
+RUN apt-get update && \
+    apt-get install -y libxcb-xfixes0 libxcb-shape0 ffmpeg pipx git wget curl ca-certificates python3 python3-pip python3-venv ffmpeg git bzip2 && \
     apt --fix-broken install -y && \
-    apt-get clean && rm -rf /var/lib/apt/lists/*
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # Copy requirements and install common dependencies
 COPY requirements.txt /tmp/
@@ -28,11 +28,11 @@ RUN pip install --root-user-action=ignore --no-cache-dir --break-system-packages
 # MeloTTS installation
 WORKDIR /opt/MeloTTS
 RUN git clone https://github.com/myshell-ai/MeloTTS.git /opt/MeloTTS 
-# RUN pip install --root-user-action=ignore --no-cache-dir --break-system-packages -r requirements.txt
-# RUN pip install --root-user-action=ignore --no-cache-dir --break-system-packages -e .
-# RUN uv pip install --root-user-action=ignore --no-cache-dir --break-system-packages -e . 
-# RUN python3 -m unidic download 
-# RUN python3 melo/init_downloads.py
+RUN pip install --root-user-action=ignore --no-cache-dir --break-system-packages -r requirements.txt
+RUN pip install --root-user-action=ignore --no-cache-dir --break-system-packages -e .
+RUN uv pip install --root-user-action=ignore --no-cache-dir --break-system-packages -e . 
+RUN python3 -m unidic download 
+RUN python3 melo/init_downloads.py
 
 # Whisper variant
 FROM base AS whisper
