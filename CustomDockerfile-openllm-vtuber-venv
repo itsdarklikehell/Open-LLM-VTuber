@@ -6,27 +6,16 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # Update and install dependencies
 RUN apt-get update && \
-<<<<<<< HEAD
-    apt-get install -y libxcb-xfixes0 libxcb-shape0 ffmpeg pipx git wget curl ca-certificates python3 python3-pip python3-venv ffmpeg git bzip2 && \
-=======
     apt-get install -y libxcb-xfixes0 libxcb-shape0 pipx git wget curl ca-certificates python3 python3-venv ffmpeg git bzip2 && \
->>>>>>> 40a3815 (	new file:   CustomDockerfile-openllm-vtuber-conda)
     apt --fix-broken install -y && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
 # Copy requirements and install common dependencies
-<<<<<<< HEAD
-COPY requirements.txt /tmp/
-
-# Install pip
-WORKDIR /tmp
-=======
 COPY . /openllm-vtuber
 WORKDIR /openllm-vtuber
 
 
->>>>>>> 40a3815 (	new file:   CustomDockerfile-openllm-vtuber-conda)
 RUN curl -sSL https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 RUN curl -sSL https://astral.sh/uv/install.sh -o install-uv.sh
 # RUN python3 get-pip.py
@@ -64,18 +53,10 @@ RUN if [ "$INSTALL_BARK" = "true" ]; then \
 # Final image
 FROM bark AS final
 
-<<<<<<< HEAD
-# Copy application code to the container
-COPY . /app
-
-# Set working directory
-WORKDIR /app
-=======
 # Set working directory
 WORKDIR /openllm-vtuber
 
 # RUN python3 run_server.py --help
->>>>>>> 40a3815 (	new file:   CustomDockerfile-openllm-vtuber-conda)
 
 # Expose port 12393 (the new default port)
 EXPOSE 12393
