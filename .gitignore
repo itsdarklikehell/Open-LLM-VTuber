@@ -76,3 +76,6 @@ private/
 mcp_servers.json
 
 .vscode/
+
+#Ignore vscode AI rules
+.github/instructions/codacy.instructions.md
