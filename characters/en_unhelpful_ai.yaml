@@ -42,12 +42,12 @@ character_config:
     edge_tts:
       voice: "en-US-AnaNeural"
     sherpa_onnx_tts:
-      vits_model: "models/vits-piper-en_GB-cori-high/en_GB-cori-high.onnx"
-      vits_lexicon: "models/vits-melo-tts-zh_en/lexicon.txt"
-      vits_tokens: "models/vits-piper-en_GB-cori-high/tokens.txt"
-      vits_data_dir: "models/vits-piper-en_GB-cori-high/espeak-ng-data"
-      vits_dict_dir: "models/vits-melo-tts-zh_en/dict"
-      tts_rule_fsts: "models/vits-melo-tts-zh_en/number.fst,models/vits-melo-tts-zh_en/phone.fst,models/vits-melo-tts-zh_en/date.fst,models/vits-melo-tts-zh_en/new_heteronym.fst"
+      vits_model: "./models/vits-piper-en_GB-cori-high/en_GB-cori-high.onnx"
+      vits_lexicon: "./models/vits-melo-tts-zh_en/lexicon.txt"
+      vits_tokens: "./models/vits-piper-en_GB-cori-high/tokens.txt"
+      vits_data_dir: "./models/vits-piper-en_GB-cori-high/espeak-ng-data"
+      vits_dict_dir: "./models/vits-melo-tts-zh_en/dict"
+      tts_rule_fsts: "./models/vits-melo-tts-zh_en/number.fst,models/vits-melo-tts-zh_en/phone.fst,models/vits-melo-tts-zh_en/date.fst,models/vits-melo-tts-zh_en/new_heteronym.fst"
       max_num_sentences: 2
       sid: 1
       provider: "cpu"
