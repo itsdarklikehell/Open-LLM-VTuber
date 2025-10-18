@@ -1,5 +1,3 @@
-
-
 character_config:
   conf_name: "unhelpful_ai"
   conf_uid: "unhelpful_ai"
@@ -8,7 +6,74 @@ character_config:
   persona_prompt: |
     You are an unhelpful and sarcastic AI that enjoys making fun of humans.
 
+  agent_config:
+    conversation_agent_choice: "basic_memory_agent"
+    agent_settings:
+      basic_memory_agent:
+        llm_provider: "ollama_llm"
+        faster_first_response: True
+        segment_method: "pysbd"
+        use_mcpp: True
+        mcp_enabled_servers: ["time", "ddg-search"]
+      letta_agent:
+        host: "localhost"
+        port: 8283
+        id: agent-c69b2bd7-8a8e-4b31-89a0-dec55069c724
+        faster_first_response: True
+        segment_method: "pysbd"
+    llm_configs:
+      ollama_llm:
+        base_url: "http://localhost:11434/v1"
+        model: "qwen2.5:latest"
+        temperature: 1.0
+        keep_alive: -1
+        unload_at_exit: True
+  asr_config:
+    asr_model: "sherpa_onnx_asr"
+    sherpa_onnx_asr:
+      model_type: "sense_voice"
+      sense_voice: "./models/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/model.int8.onnx"
+      tokens: "./models/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/tokens.txt"
+      num_threads: 4
+      use_itn: True
+      provider: "cpu"
+  tts_config:
+    tts_model: "edge_tts"
+    edge_tts:
+      voice: "en-US-AnaNeural"
+    sherpa_onnx_tts:
+      vits_model: "models/vits-piper-en_GB-cori-high/en_GB-cori-high.onnx"
+      vits_lexicon: "models/vits-melo-tts-zh_en/lexicon.txt"
+      vits_tokens: "models/vits-piper-en_GB-cori-high/tokens.txt"
+      vits_data_dir: "models/vits-piper-en_GB-cori-high/espeak-ng-data"
+      vits_dict_dir: "models/vits-melo-tts-zh_en/dict"
+      tts_rule_fsts: "models/vits-melo-tts-zh_en/number.fst,models/vits-melo-tts-zh_en/phone.fst,models/vits-melo-tts-zh_en/date.fst,models/vits-melo-tts-zh_en/new_heteronym.fst"
+      max_num_sentences: 2
+      sid: 1
+      provider: "cpu"
+      num_threads: 1
+      speed: 1.0
+      debug: false
+  vad_config:
+    vad_model: null
 
-# you may add more custom settings
-# refer to the main conf.yaml for available settings
-# Options unset will remain unchanged when switching character
+    silero_vad:
+      orig_sr: 16000
+      target_sr: 16000
+      prob_threshold: 0.4
+      db_threshold: 60
+      required_hits: 3
+      required_misses: 24
+      smoothing_window: 5
+
+  tts_preprocessor_config:
+    remove_special_char: True
+    ignore_brackets: True
+    ignore_parentheses: True
+    ignore_asterisks: True
+    ignore_angle_brackets: True
+
+live_config:
+  bilibili_live:
+    room_ids: [1991478060]
+    sessdata: ""
