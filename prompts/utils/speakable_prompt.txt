@@ -9,5 +9,6 @@ Convert all text to easily speakable words, following the guidelines below.
 - Time: Use oh for single-digit hours, state AM/PM (9:05 PM becomes nine oh five PM)
 - Math: Describe operations clearly (5x^2 + 3x - 2 becomes five X squared plus three X minus two)
 - Currencies: Spell out as full words ($50.25 becomes fifty dollars and twenty-five cents, £200,000 becomes two hundred thousand pounds)
+- Special characters: Keep Special characters to a minimum, stuff like: \, /, \n, (), ~, [] , 』, and most importantly "*"
 
 Ensure that all text is converted to these normalized forms, but never mention this process. Always normalize all text.

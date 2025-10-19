@@ -615,6 +615,15 @@ wheels = [
 ]
 
 [[package]]
+name = "einops"
+version = "0.8.1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/e5/81/df4fbe24dff8ba3934af99044188e20a98ed441ad17a274539b74e82e126/einops-0.8.1.tar.gz", hash = "sha256:de5d960a7a761225532e0f1959e5315ebeafc0cd43394732f103ca44b9837e84", size = 54805, upload-time = "2025-02-09T03:17:00.434Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/87/62/9773de14fe6c45c23649e98b83231fffd7b9892b6cf863251dc2afa73643/einops-0.8.1-py3-none-any.whl", hash = "sha256:919387eb55330f5757c6bea9165c5ff5cfe63a642682ea788a6d472576d81737", size = 64359, upload-time = "2025-02-09T03:17:01.998Z" },
+]
+
+[[package]]
 name = "elevenlabs"
 version = "2.18.0"
 source = { registry = "https://pypi.org/simple" }
@@ -643,6 +652,22 @@ sdist = { url = "https://files.pythonhosted.org/packages/48/ce/13508a1ec3f8bb981
 wheels = [
     { url = "https://files.pythonhosted.org/packages/d7/ee/bf0adb559ad3c786f12bcbc9296b3f5675f529199bef03e2df281fa1fadb/email_validator-2.2.0-py3-none-any.whl", hash = "sha256:561977c2d73ce3611850a06fa56b414621e0c8faa9d66f2611407d87465da631", size = 33521, upload-time = "2024-06-20T11:30:28.248Z" },
 ]
+
+[[package]]
+name = "encodec"
+version = "0.1.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "einops" },
+    { name = "numpy" },
+    { name = "torch", version = "2.2.2", source = { registry = "https://pypi.org/simple" }, marker = "platform_machine == 'x86_64' and sys_platform == 'darwin'" },
+    { name = "torch", version = "2.6.0", source = { registry = "https://pypi.org/simple" }, marker = "(python_full_version < '3.12' and platform_machine == 'arm64') or sys_platform != 'darwin'" },
+    { name = "torch", version = "2.9.0", source = { registry = "https://pypi.org/simple" }, marker = "(python_full_version >= '3.12' and platform_machine == 'arm64' and sys_platform == 'darwin') or (platform_machine != 'arm64' and platform_machine != 'x86_64' and sys_platform == 'darwin')" },
+    { name = "torchaudio", version = "2.2.2", source = { registry = "https://pypi.org/simple" }, marker = "platform_machine == 'x86_64' and sys_platform == 'darwin'" },
+    { name = "torchaudio", version = "2.6.0", source = { registry = "https://pypi.org/simple" }, marker = "(python_full_version < '3.12' and platform_machine == 'arm64') or sys_platform != 'darwin'" },
+    { name = "torchaudio", version = "2.9.0", source = { registry = "https://pypi.org/simple" }, marker = "(python_full_version >= '3.12' and platform_machine == 'arm64' and sys_platform == 'darwin') or (platform_machine != 'arm64' and platform_machine != 'x86_64' and sys_platform == 'darwin')" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/62/59/e47bbd0542d0e6f4ce9983d5eb458a01d4b42c81e5c410cb9e159b1061ae/encodec-0.1.1.tar.gz", hash = "sha256:36dde98ccfe6c51a15576476cadfcb3b35a63507b8b8555abd69889a6fba6772", size = 3736037, upload-time = "2022-10-25T16:13:21.471Z" }
 
 [[package]]
 name = "eng-to-ipa"
@@ -811,6 +836,15 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/f3/27/939cf07c4b4fbeb52404d30244ce9166ae9da123d1987640b1dfc839beea/fugashi-1.3.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:96437109c407d1f6b47535767c8439be7c4a5f8859213ba25b042145dcbda405", size = 606665, upload-time = "2023-08-25T12:50:47.249Z" },
     { url = "https://files.pythonhosted.org/packages/8a/9d/e490e56d017402b08c858bada8053efe42e95bf241c36c286a27aa62b4ad/fugashi-1.3.0-cp311-cp311-win_amd64.whl", hash = "sha256:75c88c30a60222f95ea245cdd92b3fa7bb3ecbe74626ffe22f7cb37f5206e207", size = 498216, upload-time = "2023-08-25T12:49:10.571Z" },
     { url = "https://files.pythonhosted.org/packages/c9/25/a7538ab22c18c60f7f619ec0237e96d3fa376a918737d693f8f76628aaec/fugashi-1.3.0-pp310-pypy310_pp73-macosx_10_9_x86_64.whl", hash = "sha256:1413c7d7c4954a323731d343c5c063c5f357c801018dac64cd0186ad66954b63", size = 507716, upload-time = "2023-08-25T13:14:10.663Z" },
+]
+
+[[package]]
+name = "funcy"
+version = "2.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/70/b8/c6081521ff70afdff55cd9512b2220bbf4fa88804dae51d1b57b4b58ef32/funcy-2.0.tar.gz", hash = "sha256:3963315d59d41c6f30c04bc910e10ab50a3ac4a225868bfa96feed133df075cb", size = 537931, upload-time = "2023-03-28T06:22:46.764Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/d5/08/c2409cb01d5368dcfedcbaffa7d044cc8957d57a9d0855244a5eb4709d30/funcy-2.0-py2.py3-none-any.whl", hash = "sha256:53df23c8bb1651b12f095df764bfb057935d49537a56de211b098f4c79614bb0", size = 30891, upload-time = "2023-03-28T06:22:42.576Z" },
 ]
 
 [[package]]
@@ -1996,6 +2030,7 @@ dependencies = [
     { name = "scipy" },
     { name = "sherpa-onnx" },
     { name = "soundfile" },
+    { name = "suno-bark" },
     { name = "tomli" },
     { name = "torch", version = "2.2.2", source = { registry = "https://pypi.org/simple" }, marker = "platform_machine == 'x86_64' and sys_platform == 'darwin'" },
     { name = "torch", version = "2.6.0", source = { registry = "https://pypi.org/simple" }, marker = "(python_full_version < '3.12' and platform_machine == 'arm64') or sys_platform != 'darwin'" },
@@ -2044,6 +2079,7 @@ requires-dist = [
     { name = "scipy", specifier = ">=1.14.1" },
     { name = "sherpa-onnx", specifier = ">=1.10.39" },
     { name = "soundfile", specifier = ">=0.12.1" },
+    { name = "suno-bark", git = "https://github.com/suno-ai/bark.git" },
     { name = "tomli", specifier = ">=2.2.1" },
     { name = "torch", marker = "sys_platform != 'darwin'", specifier = ">=2.6.0" },
     { name = "torch", marker = "platform_machine == 'arm64' and sys_platform == 'darwin'", specifier = ">=2.6.0" },
@@ -5535,6 +5571,25 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/ff/fb/2984a686808b89a6781526129a4b51266f678b2d2b97ab2d325e56116df8/starlette-0.45.3.tar.gz", hash = "sha256:2cbcba2a75806f8a41c722141486f37c28e30a0921c5f6fe4346cb0dcee1302f", size = 2574076, upload-time = "2025-01-24T11:17:36.535Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/d9/61/f2b52e107b1fc8944b33ef56bf6ac4ebbe16d91b94d2b87ce013bf63fb84/starlette-0.45.3-py3-none-any.whl", hash = "sha256:dfb6d332576f136ec740296c7e8bb8c8a7125044e7c6da30744718880cdd059d", size = 71507, upload-time = "2025-01-24T11:17:34.182Z" },
+]
+
+[[package]]
+name = "suno-bark"
+version = "0.0.1a0"
+source = { git = "https://github.com/suno-ai/bark.git#f4f32d4cd480dfec1c245d258174bc9bde3c2148" }
+dependencies = [
+    { name = "boto3" },
+    { name = "encodec" },
+    { name = "funcy" },
+    { name = "huggingface-hub" },
+    { name = "numpy" },
+    { name = "scipy" },
+    { name = "tokenizers" },
+    { name = "torch", version = "2.2.2", source = { registry = "https://pypi.org/simple" }, marker = "platform_machine == 'x86_64' and sys_platform == 'darwin'" },
+    { name = "torch", version = "2.6.0", source = { registry = "https://pypi.org/simple" }, marker = "(python_full_version < '3.12' and platform_machine == 'arm64') or sys_platform != 'darwin'" },
+    { name = "torch", version = "2.9.0", source = { registry = "https://pypi.org/simple" }, marker = "(python_full_version >= '3.12' and platform_machine == 'arm64' and sys_platform == 'darwin') or (platform_machine != 'arm64' and platform_machine != 'x86_64' and sys_platform == 'darwin')" },
+    { name = "tqdm" },
+    { name = "transformers" },
 ]
 
 [[package]]
