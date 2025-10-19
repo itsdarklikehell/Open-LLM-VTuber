@@ -54,8 +54,8 @@ SherpaOnnxASR:
 
 # ============== Text to Speech ==============
 TTS_MODEL: "SherpaOnnxTTS"
-# text to speech model options: 
-#   "AzureTTS", "pyttsx3TTS", "edgeTTS", "barkTTS", 
+# text to speech model options:
+#   "AzureTTS", "pyttsx3TTS", "edgeTTS", "barkTTS",
 #   "cosyvoiceTTS", "meloTTS", "piperTTS", "coquiTTS",
 #   "fishAPITTS", "SherpaOnnxTTS"
 
@@ -63,15 +63,15 @@ TTS_MODEL: "SherpaOnnxTTS"
 # documentation: https://k2-fsa.github.io/sherpa/onnx/index.html
 # TTS models download: https://github.com/k2-fsa/sherpa-onnx/releases/tag/tts-models
 SherpaOnnxTTS:
-    vits_model: "/path/to/tts-models/sherpa-onnx-vits-zh-ll/model.onnx"  # Path to VITS model file
-    vits_lexicon: "/path/to/tts-models/sherpa-onnx-vits-zh-ll/lexicon.txt"  # Path to lexicon file (optional)
-    vits_tokens: "/path/to/tts-models/sherpa-onnx-vits-zh-ll/tokens.txt"  # Path to tokens file
-    vits_data_dir: "" # "/path/to/tts-models/vits-piper-en_GB-cori-high/espeak-ng-data"  # Path to espeak-ng data (optional)
-    vits_dict_dir: "/path/to/tts-models/sherpa-onnx-vits-zh-ll/dict"  # Path to Jieba dict (optional, for Chinese)
-    tts_rule_fsts: "/path/to/tts-models/sherpa-onnx-vits-zh-ll/number.fst,/path/to/tts-models/sherpa-onnx-vits-zh-ll/phone.fst,/path/to/tts-models/sherpa-onnx-vits-zh-ll/date.fst" # Path to rule FSTs file (optional)
-    max_num_sentences: 2  # Max sentences per batch (or -1 for all)
-    sid: 0  # Speaker ID (for multi-speaker models) 0-4
-    provider: "cpu"  # Use "cpu", "cuda" (GPU), or "coreml" (Apple)
-    num_threads: 1  # Number of computation threads
-    speed: 1.0  # Speech speed (1.0 is normal)
-    debug: false  # Enable debug mode (True/False)
+  vits_model: "/path/to/tts-models/sherpa-onnx-vits-zh-ll/model.onnx" # Path to VITS model file
+  vits_lexicon: "/path/to/tts-models/sherpa-onnx-vits-zh-ll/lexicon.txt" # Path to lexicon file (optional)
+  vits_tokens: "/path/to/tts-models/sherpa-onnx-vits-zh-ll/tokens.txt" # Path to tokens file
+  vits_data_dir: "" # "/path/to/tts-models/vits-piper-en_GB-cori-high/espeak-ng-data"  # Path to espeak-ng data (optional)
+  vits_dict_dir: "/path/to/tts-models/sherpa-onnx-vits-zh-ll/dict" # Path to Jieba dict (optional, for Chinese)
+  tts_rule_fsts: "/path/to/tts-models/sherpa-onnx-vits-zh-ll/number.fst,/path/to/tts-models/sherpa-onnx-vits-zh-ll/phone.fst,/path/to/tts-models/sherpa-onnx-vits-zh-ll/date.fst" # Path to rule FSTs file (optional)
+  max_num_sentences: 2 # Max sentences per batch (or -1 for all)
+  sid: 0 # Speaker ID (for multi-speaker models) 0-4
+  provider: "cpu" # Use "cpu", "cuda" (GPU), or "coreml" (Apple)
+  num_threads: 1 # Number of computation threads
+  speed: 1.0 # Speech speed (1.0 is normal)
+  debug: false # Enable debug mode (True/False)

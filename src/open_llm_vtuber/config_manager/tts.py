@@ -466,10 +466,12 @@ class ElevenLabsTTSConfig(I18nMixin):
             en="Voice similarity boost (0.0 to 1.0)", zh="语音相似度增强（0.0 到 1.0）"
         ),
         "style": Description(
-            en="Voice style exaggeration (0.0 to 1.0)", zh="语音风格夸张度（0.0 到 1.0）"
+            en="Voice style exaggeration (0.0 to 1.0)",
+            zh="语音风格夸张度（0.0 到 1.0）",
         ),
         "use_speaker_boost": Description(
-            en="Enable speaker boost for better quality", zh="启用说话人增强以获得更好的质量"
+            en="Enable speaker boost for better quality",
+            zh="启用说话人增强以获得更好的质量",
         ),
     }
 

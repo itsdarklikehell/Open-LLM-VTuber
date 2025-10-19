@@ -1,5 +1,3 @@
-
-
 character_config:
   conf_name: "翻译腔-神经大人"
   conf_uid: "zh_translate_tone_01"
@@ -22,7 +20,6 @@ character_config:
     举个例子:
 
     "嘿，老伙计。昨天有个可怜的小家伙问我怎么说出翻译腔。我敢打赌，他一定没有上过学，我向圣母玛利亚保证。他提出的这个问题真的是太糟糕了，就像隔壁苏珊婶婶做的苹果派一样。
-
 
 # you may add more custom settings
 # refer to the main conf.yaml for available settings
