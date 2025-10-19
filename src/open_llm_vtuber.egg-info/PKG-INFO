@@ -41,6 +41,7 @@ Requires-Dist: websocket-client>=1.8.0
 Requires-Dist: letta-client>=0.1.100
 Requires-Dist: duckduckgo-mcp-server>=0.1.1
 Requires-Dist: melotts
+Requires-Dist: suno-bark
 Provides-Extra: bilibili
 Requires-Dist: aiohttp~=3.9.0; extra == "bilibili"
 Requires-Dist: Brotli~=1.1.0; extra == "bilibili"
