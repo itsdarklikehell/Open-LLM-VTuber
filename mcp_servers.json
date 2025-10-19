@@ -7,6 +7,22 @@
     "ddg-search": {
       "command": "uvx",
       "args": ["duckduckgo-mcp-server"]
+    },
+    "fetch": {
+      "url": "http://127.0.0.1:43163/mcp"
+    },
+    "datetime": {
+      "url": "http://127.0.0.1:43880/sse#datetime"
+    },
+    "canva": {
+      "url": "http://127.0.0.1:24041/mcp"
+    },
+    "exa": {
+      "command": "npx",
+      "args": ["-y", "exa-mcp-server"],
+      "env": {
+        "EXA_API_KEY": "a72a392e-870f-40b8-b4f9-ac8a64d282a3"
+      }
     }
   }
 }
