@@ -14,26 +14,37 @@ nor OpenClaw (Wheatley) serve one natively -- they expose A2A JSON-RPC
     GET  /v1/models            -> lists glados, wheatley
 
 Routing by model name:
-    glados   -> Hermes   A2A  :9900/a2a/jsonrpc
-    wheatley -> OpenClaw A2A  :18800/a2a/jsonrpc
+    glados   -> Hermes   A2A  (HERMES_A2A_URL, default :9900/a2a/jsonrpc)
+    wheatley -> OpenClaw A2A  (OPENCLAW_A2A_URL, default :18800/a2a/jsonrpc)
+
+Configuration is via environment variables (current values are defaults, so
+existing deployments keep working unchanged):
+    A2A_PROXY_PORT             listen port            (default 8890)
+    A2A_PROXY_CONTEXT_PREFIX   A2A contextId prefix   (default ollvtuber)
+    OPENCLAW_CONFIG            path to openclaw.json   (~/.openclaw/openclaw.json)
+    HERMES_A2A_URL             Hermes A2A endpoint
+    OPENCLAW_A2A_URL           OpenClaw A2A endpoint
 
 No external deps (stdlib only). Run: python3 a2a_openai_proxy.py
 """
 import json
+import os
 import time
 import urllib.error
 import urllib.request
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
-PORT = 8890
-CONTEXT_PREFIX = "ollvtuber"
+PORT = int(os.environ.get("A2A_PROXY_PORT", "8890"))
+CONTEXT_PREFIX = os.environ.get("A2A_PROXY_CONTEXT_PREFIX", "ollvtuber")
 
 # A2A endpoints + token (read from OpenClaw config so we don't hardcode secrets)
-import os
+OPENCLAW_CONFIG = os.environ.get(
+    "OPENCLAW_CONFIG", os.path.expanduser("~/.openclaw/openclaw.json")
+)
 
 
 def _load_cfg():
-    cfg_path = os.path.expanduser("~/.openclaw/openclaw.json")
+    cfg_path = OPENCLAW_CONFIG
     try:
         with open(cfg_path) as f:
             oc = json.load(f)
@@ -42,11 +53,17 @@ def _load_cfg():
         tok = ""
     return tok
 
+
 A2A_TOKEN = _load_cfg()
 
+HERMES_A2A_URL = os.environ.get("HERMES_A2A_URL", "http://localhost:9900/a2a/jsonrpc")
+OPENCLAW_A2A_URL = os.environ.get(
+    "OPENCLAW_A2A_URL", "http://localhost:18800/a2a/jsonrpc"
+)
+
 ROUTES = {
-    "glados":   {"url": "http://localhost:9900/a2a/jsonrpc", "token": A2A_TOKEN},
-    "wheatley": {"url": "http://localhost:18800/a2a/jsonrpc", "token": A2A_TOKEN},
+    "glados": {"url": HERMES_A2A_URL, "token": A2A_TOKEN},
+    "wheatley": {"url": OPENCLAW_A2A_URL, "token": A2A_TOKEN},
 }
 
 
