@@ -172,8 +172,8 @@ character_config:
 
   # === Automatic Speech Recognition ===
   asr_config:
-    # speech to text model options: 'faster_whisper', 'whisper_cpp', 'whisper', 'azure_asr', 'fun_asr', 'groq_whisper_asr', 'sherpa_onnx_asr'
-    asr_model: 'sherpa_onnx_asr'
+    # speech to text model options: 'faster_whisper', 'whisper_cpp', 'whisper', 'azure_asr', 'fun_asr', 'groq_whisper_asr', 'openai_compat_asr', 'sherpa_onnx_asr'
+    asr_model: 'openai_compat_asr'
 
     azure_asr:
       api_key: 'azure_api_key'
@@ -269,6 +269,16 @@ character_config:
       api_key: ''
       model: 'whisper-large-v3-turbo' # or 'whisper-large-v3'
       lang: '' # put nothing and it will be auto
+
+    # OpenAI-compatible ASR (e.g. a local faster-whisper wrapper).
+    # Point base_url at any server implementing /v1/audio/transcriptions.
+    # Keeps speech recognition fully offline when using a local endpoint.
+    openai_compat_asr:
+      base_url: 'http://localhost:8733/v1'
+      model: 'base'
+      api_key: 'local' # dummy value for local servers
+      language: 'en' # put nothing and it will be auto
+      timeout: 60
 
   # =================== Text to Speech ===================
   tts_config:

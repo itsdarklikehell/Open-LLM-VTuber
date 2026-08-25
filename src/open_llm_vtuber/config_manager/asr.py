@@ -183,6 +183,37 @@ class GroqWhisperASRConfig(I18nMixin):
     }
 
 
+class OpenAICompatASRConfig(I18nMixin):
+    """Configuration for an OpenAI-compatible ASR endpoint (e.g. a local
+    faster-whisper wrapper). Keeps speech recognition fully offline when
+    pointed at a local server."""
+
+    base_url: str = Field("http://localhost:8733/v1", alias="base_url")
+    model: str = Field("base", alias="model")
+    api_key: str = Field("local", alias="api_key")
+    language: str | None = Field(None, alias="language")
+    timeout: int = Field(60, alias="timeout")
+
+    DESCRIPTIONS: ClassVar[dict[str, Description]] = {
+        "base_url": Description(
+            en="Base URL of the OpenAI-compatible ASR server (e.g. http://localhost:8733/v1)",
+            zh="兼容 OpenAI 的 ASR 服务的基础 URL（如 http://localhost:8733/v1）",
+        ),
+        "model": Description(en="Model name to request", zh="要请求的模型名称"),
+        "api_key": Description(
+            en="API key (often a dummy value for local servers)",
+            zh="API 密钥（本地服务通常为占位值）",
+        ),
+        "language": Description(
+            en="Language code (leave empty for auto-detect)",
+            zh="语言代码（留空以自动检测）",
+        ),
+        "timeout": Description(
+            en="Request timeout in seconds", zh="请求超时时间（秒）"
+        ),
+    }
+
+
 class SherpaOnnxASRConfig(I18nMixin):
     """Configuration for Sherpa Onnx ASR."""
 
@@ -325,6 +356,7 @@ class ASRConfig(I18nMixin):
         "azure_asr",
         "fun_asr",
         "groq_whisper_asr",
+        "openai_compat_asr",
         "sherpa_onnx_asr",
     ] = Field(..., alias="asr_model")
     azure_asr: AzureASRConfig | None = Field(None, alias="azure_asr")
@@ -334,6 +366,9 @@ class ASRConfig(I18nMixin):
     fun_asr: FunASRConfig | None = Field(None, alias="fun_asr")
     groq_whisper_asr: GroqWhisperASRConfig | None = Field(
         None, alias="groq_whisper_asr"
+    )
+    openai_compat_asr: OpenAICompatASRConfig | None = Field(
+        None, alias="openai_compat_asr"
     )
     sherpa_onnx_asr: SherpaOnnxASRConfig | None = Field(None, alias="sherpa_onnx_asr")
 
@@ -375,6 +410,13 @@ class ASRConfig(I18nMixin):
             values.fun_asr.model_validate(values.fun_asr.model_dump())
         elif asr_model == "GroqWhisperASR" and values.groq_whisper_asr is not None:
             values.groq_whisper_asr.model_validate(values.groq_whisper_asr.model_dump())
+        elif (
+            asr_model == "OpenAICompatASR"
+            and values.openai_compat_asr is not None
+        ):
+            values.openai_compat_asr.model_validate(
+                values.openai_compat_asr.model_dump()
+            )
         elif asr_model == "SherpaOnnxASR" and values.sherpa_onnx_asr is not None:
             values.sherpa_onnx_asr.model_validate(values.sherpa_onnx_asr.model_dump())
 
