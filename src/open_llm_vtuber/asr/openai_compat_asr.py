@@ -71,7 +71,7 @@ class VoiceRecognition(ASRInterface):
                 timeout=self.timeout,
             )
             response.raise_for_status()
-        except requests.RequestException as exc:  # noqa: BLE001 - surface as empty on transport failure
+        except requests.RequestException as exc:
             logger.error("OpenAI-compatible ASR request failed: {}", exc)
             return ""
 
