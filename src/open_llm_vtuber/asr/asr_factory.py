@@ -53,6 +53,16 @@ class ASRFactory:
                 model=kwargs.get("model"),
                 lang=kwargs.get("lang"),
             )
+        elif system_name == "openai_compat_asr":
+            from .openai_compat_asr import VoiceRecognition as OpenAICompatASR
+
+            return OpenAICompatASR(
+                base_url=kwargs.get("base_url"),
+                model=kwargs.get("model"),
+                api_key=kwargs.get("api_key"),
+                language=kwargs.get("language"),
+                timeout=kwargs.get("timeout", 60),
+            )
         elif system_name == "sherpa_onnx_asr":
             from .sherpa_onnx_asr import VoiceRecognition as SherpaOnnxASR
 
