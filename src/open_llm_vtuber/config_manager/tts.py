@@ -1,7 +1,9 @@
 # config_manager/tts.py
-from pydantic import ValidationInfo, Field, model_validator
-from typing import Literal, Optional, Dict, ClassVar
-from .i18n import I18nMixin, Description
+from typing import ClassVar, Literal
+
+from pydantic import Field, ValidationInfo, model_validator
+
+from .i18n import Description, I18nMixin
 
 CartesiaLanguages = Literal[
     "en",
@@ -120,7 +122,7 @@ class AzureTTSConfig(I18nMixin):
     pitch: str = Field(..., alias="pitch")
     rate: str = Field(..., alias="rate")
 
-    DESCRIPTIONS: ClassVar[Dict[str, Description]] = {
+    DESCRIPTIONS: ClassVar[dict[str, Description]] = {
         "api_key": Description(
             en="API key for Azure TTS service", zh="Azure TTS 服务的 API 密钥"
         ),
@@ -140,7 +142,7 @@ class BarkTTSConfig(I18nMixin):
 
     voice: str = Field(..., alias="voice")
 
-    DESCRIPTIONS: ClassVar[Dict[str, Description]] = {
+    DESCRIPTIONS: ClassVar[dict[str, Description]] = {
         "voice": Description(
             en="Voice name to use for Bark TTS", zh="Bark TTS 使用的语音名称"
         ),
@@ -152,7 +154,7 @@ class EdgeTTSConfig(I18nMixin):
 
     voice: str = Field(..., alias="voice")
 
-    DESCRIPTIONS: ClassVar[Dict[str, Description]] = {
+    DESCRIPTIONS: ClassVar[dict[str, Description]] = {
         "voice": Description(
             en="Voice name to use for Edge TTS (use 'edge-tts --list-voices' to list available voices)",
             zh="Edge TTS 使用的语音名称（使用 'edge-tts --list-voices' 列出可用语音）",
@@ -173,7 +175,7 @@ class CosyvoiceTTSConfig(I18nMixin):
     seed: int = Field(..., alias="seed")
     api_name: str = Field(..., alias="api_name")
 
-    DESCRIPTIONS: ClassVar[Dict[str, Description]] = {
+    DESCRIPTIONS: ClassVar[dict[str, Description]] = {
         "client_url": Description(
             en="URL of the CosyVoice Gradio web UI", zh="CosyVoice Gradio Web UI 的 URL"
         ),
@@ -209,7 +211,7 @@ class Cosyvoice2TTSConfig(I18nMixin):
     speed: float = Field(..., alias="speed")
     api_name: str = Field(..., alias="api_name")
 
-    DESCRIPTIONS: ClassVar[Dict[str, Description]] = {
+    DESCRIPTIONS: ClassVar[dict[str, Description]] = {
         "client_url": Description(
             en="URL of the CosyVoice Gradio web UI", zh="CosyVoice Gradio Web UI 的 URL"
         ),
@@ -240,7 +242,7 @@ class MeloTTSConfig(I18nMixin):
     device: str = Field("auto", alias="device")
     speed: float = Field(1.0, alias="speed")
 
-    DESCRIPTIONS: ClassVar[Dict[str, Description]] = {
+    DESCRIPTIONS: ClassVar[dict[str, Description]] = {
         "speaker": Description(
             en="Speaker name (e.g., EN-Default, ZH)",
             zh="说话人名称（如 EN-Default、ZH）",
@@ -263,7 +265,7 @@ class XTTSConfig(I18nMixin):
     speaker_wav: str = Field(..., alias="speaker_wav")
     language: str = Field(..., alias="language")
 
-    DESCRIPTIONS: ClassVar[Dict[str, Description]] = {
+    DESCRIPTIONS: ClassVar[dict[str, Description]] = {
         "api_url": Description(
             en="URL of the XTTS API endpoint", zh="XTTS API 端点的 URL"
         ),
@@ -289,7 +291,7 @@ class GPTSoVITSConfig(I18nMixin):
     media_type: str = Field(..., alias="media_type")
     streaming_mode: str = Field(..., alias="streaming_mode")
 
-    DESCRIPTIONS: ClassVar[Dict[str, Description]] = {
+    DESCRIPTIONS: ClassVar[dict[str, Description]] = {
         "api_url": Description(
             en="URL of the GPT-SoVITS API endpoint", zh="GPT-SoVITS API 端点的 URL"
         ),
@@ -316,7 +318,7 @@ class FishAPITTSConfig(I18nMixin):
     latency: Literal["normal", "balanced"] = Field(..., alias="latency")
     base_url: str = Field(..., alias="base_url")
 
-    DESCRIPTIONS: ClassVar[Dict[str, Description]] = {
+    DESCRIPTIONS: ClassVar[dict[str, Description]] = {
         "api_key": Description(
             en="API key for Fish TTS service", zh="Fish TTS 服务的 API 密钥"
         ),
@@ -341,7 +343,7 @@ class CoquiTTSConfig(I18nMixin):
     language: str = Field(..., alias="language")
     device: str = Field("", alias="device")
 
-    DESCRIPTIONS: ClassVar[Dict[str, Description]] = {
+    DESCRIPTIONS: ClassVar[dict[str, Description]] = {
         "model_name": Description(
             en="Name of the TTS model to use", zh="要使用的 TTS 模型名称"
         ),
@@ -363,11 +365,11 @@ class SherpaOnnxTTSConfig(I18nMixin):
     """Configuration for Sherpa Onnx TTS."""
 
     vits_model: str = Field(..., alias="vits_model")
-    vits_lexicon: Optional[str] = Field(None, alias="vits_lexicon")
+    vits_lexicon: str | None = Field(None, alias="vits_lexicon")
     vits_tokens: str = Field(..., alias="vits_tokens")
-    vits_data_dir: Optional[str] = Field(None, alias="vits_data_dir")
-    vits_dict_dir: Optional[str] = Field(None, alias="vits_dict_dir")
-    tts_rule_fsts: Optional[str] = Field(None, alias="tts_rule_fsts")
+    vits_data_dir: str | None = Field(None, alias="vits_data_dir")
+    vits_dict_dir: str | None = Field(None, alias="vits_dict_dir")
+    tts_rule_fsts: str | None = Field(None, alias="tts_rule_fsts")
     max_num_sentences: int = Field(2, alias="max_num_sentences")
     sid: int = Field(1, alias="sid")
     provider: Literal["cpu", "cuda", "coreml"] = Field("cpu", alias="provider")
@@ -375,7 +377,7 @@ class SherpaOnnxTTSConfig(I18nMixin):
     speed: float = Field(1.0, alias="speed")
     debug: bool = Field(False, alias="debug")
 
-    DESCRIPTIONS: ClassVar[Dict[str, Description]] = {
+    DESCRIPTIONS: ClassVar[dict[str, Description]] = {
         "vits_model": Description(en="Path to VITS model file", zh="VITS 模型文件路径"),
         "vits_lexicon": Description(
             en="Path to lexicon file (optional)", zh="词典文件路径（可选）"
@@ -423,7 +425,7 @@ class SiliconFlowTTSConfig(I18nMixin):
     speed: float = Field(1, alias="speed")
     gain: int = Field(0, alias="gain")
 
-    DESCRIPTIONS: ClassVar[Dict[str, Description]] = {
+    DESCRIPTIONS: ClassVar[dict[str, Description]] = {
         "api_key": Description(
             en="API key for SiliconFlow TTS service",
             zh="SiliconFlow TTS 服务的 API 密钥",
@@ -451,13 +453,13 @@ class SiliconFlowTTSConfig(I18nMixin):
 class OpenAITTSConfig(I18nMixin):
     """Configuration for OpenAI-compatible TTS client."""
 
-    model: Optional[str] = Field(None, alias="model")
-    voice: Optional[str] = Field(None, alias="voice")
-    api_key: Optional[str] = Field(None, alias="api_key")
-    base_url: Optional[str] = Field(None, alias="base_url")
+    model: str | None = Field(None, alias="model")
+    voice: str | None = Field(None, alias="voice")
+    api_key: str | None = Field(None, alias="api_key")
+    base_url: str | None = Field(None, alias="base_url")
     file_extension: Literal["mp3", "wav"] = Field("mp3", alias="file_extension")
 
-    DESCRIPTIONS: ClassVar[Dict[str, Description]] = {
+    DESCRIPTIONS: ClassVar[dict[str, Description]] = {
         "model": Description(
             en="Model name for the TTS server (overrides default)",
             zh="TTS 服务器的模型名称（覆盖默认值）",
@@ -491,7 +493,7 @@ class SparkTTSConfig(I18nMixin):
     pitch: int = Field(..., alias="pitch")
     speed: int = Field(..., alias="speed")
 
-    DESCRIPTIONS: ClassVar[Dict[str, Description]] = {
+    DESCRIPTIONS: ClassVar[dict[str, Description]] = {
         "prompt_wav_upload": Description(
             en="Reference audio (used when using voice cloning)",
             zh="参考音频（使用语音克隆时候使用）",
@@ -527,7 +529,7 @@ class MinimaxTTSConfig(I18nMixin):
     voice_id: str = Field("male-qn-qingse", alias="voice_id")
     pronunciation_dict: str = Field("", alias="pronunciation_dict")
 
-    DESCRIPTIONS: ClassVar[Dict[str, Description]] = {
+    DESCRIPTIONS: ClassVar[dict[str, Description]] = {
         "group_id": Description(en="Minimax group_id", zh="Minimax 的 group_id"),
         "api_key": Description(en="Minimax API key", zh="Minimax 的 API key"),
         "model": Description(en="Minimax model name", zh="Minimax 模型名称"),
@@ -550,7 +552,7 @@ class PiperTTSConfig(I18nMixin):
     normalize_audio: bool = Field(True, alias="normalize_audio")
     use_cuda: bool = Field(False, alias="use_cuda")
 
-    DESCRIPTIONS: ClassVar[Dict[str, Description]] = {
+    DESCRIPTIONS: ClassVar[dict[str, Description]] = {
         "model_path": Description(
             en="Path to Piper ONNX model file",
             zh="Piper ONNX 模型文件路径",
@@ -597,7 +599,7 @@ class ElevenLabsTTSConfig(I18nMixin):
     style: float = Field(0.0, alias="style")
     use_speaker_boost: bool = Field(True, alias="use_speaker_boost")
 
-    DESCRIPTIONS: ClassVar[Dict[str, Description]] = {
+    DESCRIPTIONS: ClassVar[dict[str, Description]] = {
         "api_key": Description(
             en="API key for ElevenLabs TTS service", zh="ElevenLabs TTS 服务的 API 密钥"
         ),
@@ -645,7 +647,7 @@ class CartesiaTTSConfig(I18nMixin):
     volume: float = Field(1.0, alias="volume")
     speed: float = Field(1.0, alias="speed")
 
-    DESCRIPTIONS: ClassVar[Dict[str, Description]] = {
+    DESCRIPTIONS: ClassVar[dict[str, Description]] = {
         "api_key": Description(
             en="API key for Cartesia TTS service", zh="Cartesia TTS 服务的 API 密钥"
         ),
@@ -704,30 +706,26 @@ class TTSConfig(I18nMixin):
         "piper_tts",
     ] = Field(..., alias="tts_model")
 
-    azure_tts: Optional[AzureTTSConfig] = Field(None, alias="azure_tts")
-    bark_tts: Optional[BarkTTSConfig] = Field(None, alias="bark_tts")
-    edge_tts: Optional[EdgeTTSConfig] = Field(None, alias="edge_tts")
-    cosyvoice_tts: Optional[CosyvoiceTTSConfig] = Field(None, alias="cosyvoice_tts")
-    cosyvoice2_tts: Optional[Cosyvoice2TTSConfig] = Field(None, alias="cosyvoice2_tts")
-    melo_tts: Optional[MeloTTSConfig] = Field(None, alias="melo_tts")
-    coqui_tts: Optional[CoquiTTSConfig] = Field(None, alias="coqui_tts")
-    x_tts: Optional[XTTSConfig] = Field(None, alias="x_tts")
-    gpt_sovits_tts: Optional[GPTSoVITSConfig] = Field(None, alias="gpt_sovits")
-    fish_api_tts: Optional[FishAPITTSConfig] = Field(None, alias="fish_api_tts")
-    sherpa_onnx_tts: Optional[SherpaOnnxTTSConfig] = Field(
-        None, alias="sherpa_onnx_tts"
-    )
-    siliconflow_tts: Optional[SiliconFlowTTSConfig] = Field(
-        None, alias="siliconflow_tts"
-    )
-    openai_tts: Optional[OpenAITTSConfig] = Field(None, alias="openai_tts")
-    spark_tts: Optional[SparkTTSConfig] = Field(None, alias="spark_tts")
-    minimax_tts: Optional[MinimaxTTSConfig] = Field(None, alias="minimax_tts")
+    azure_tts: AzureTTSConfig | None = Field(None, alias="azure_tts")
+    bark_tts: BarkTTSConfig | None = Field(None, alias="bark_tts")
+    edge_tts: EdgeTTSConfig | None = Field(None, alias="edge_tts")
+    cosyvoice_tts: CosyvoiceTTSConfig | None = Field(None, alias="cosyvoice_tts")
+    cosyvoice2_tts: Cosyvoice2TTSConfig | None = Field(None, alias="cosyvoice2_tts")
+    melo_tts: MeloTTSConfig | None = Field(None, alias="melo_tts")
+    coqui_tts: CoquiTTSConfig | None = Field(None, alias="coqui_tts")
+    x_tts: XTTSConfig | None = Field(None, alias="x_tts")
+    gpt_sovits_tts: GPTSoVITSConfig | None = Field(None, alias="gpt_sovits")
+    fish_api_tts: FishAPITTSConfig | None = Field(None, alias="fish_api_tts")
+    sherpa_onnx_tts: SherpaOnnxTTSConfig | None = Field(None, alias="sherpa_onnx_tts")
+    siliconflow_tts: SiliconFlowTTSConfig | None = Field(None, alias="siliconflow_tts")
+    openai_tts: OpenAITTSConfig | None = Field(None, alias="openai_tts")
+    spark_tts: SparkTTSConfig | None = Field(None, alias="spark_tts")
+    minimax_tts: MinimaxTTSConfig | None = Field(None, alias="minimax_tts")
     elevenlabs_tts: ElevenLabsTTSConfig | None = Field(None, alias="elevenlabs_tts")
     cartesia_tts: CartesiaTTSConfig | None = Field(None, alias="cartesia_tts")
-    piper_tts: Optional[PiperTTSConfig] = Field(None, alias="piper_tts")
+    piper_tts: PiperTTSConfig | None = Field(None, alias="piper_tts")
 
-    DESCRIPTIONS: ClassVar[Dict[str, Description]] = {
+    DESCRIPTIONS: ClassVar[dict[str, Description]] = {
         "tts_model": Description(
             en="Text-to-speech model to use", zh="要使用的文本转语音模型"
         ),
