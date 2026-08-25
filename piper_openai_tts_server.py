@@ -9,8 +9,16 @@ local models. Exposes the OpenAI audio.speech shape Open-LLM-VTuber's
            and returns raw audio/wav
 
 Model registry (voice/model name -> onnx path):
-    hal     -> ~/voices/hal/hal.onnx          (HAL-9000, Wheatley)
-    glados  -> ~/voices/glados/glados.onnx     (GLaDOS)
+    glados  -> $VOICES_DIR/glados/glados.onnx   (GLaDOS)
+    hal     -> $VOICES_DIR/hal/hal.onnx          (HAL-9000, Wheatley)
+
+Configuration is via environment variables (current values are defaults, so
+existing deployments keep working unchanged):
+    PIPER_TTS_PORT    listen port            (default 8880)
+    PIPER_BIN         path to the piper CLI  (~/.local/bin/piper)
+    VOICES_DIR        base dir for voice models (~/voices)
+    PIPER_TTS_MODELS  optional JSON dict overriding the registry
+                      e.g. '{"glados":"/abs/path/glados.onnx"}'
 
 Stdlib only (calls the `piper` binary). Run: python3 piper_openai_tts_server.py
 """
@@ -20,12 +28,24 @@ import subprocess
 import tempfile
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
-PORT = 8880
-PIPER_BIN = "/home/rizzo/.local/bin/piper"
-MODELS = {
-    "hal": os.path.expanduser("~/voices/hal/hal.onnx"),
-    "glados": os.path.expanduser("~/voices/glados/glados.onnx"),
+PORT = int(os.environ.get("PIPER_TTS_PORT", "8880"))
+PIPER_BIN = os.environ.get("PIPER_BIN", os.path.expanduser("~/.local/bin/piper"))
+VOICES_DIR = os.environ.get("VOICES_DIR", os.path.expanduser("~/voices"))
+
+DEFAULT_MODELS = {
+    "glados": os.path.join(VOICES_DIR, "glados", "glados.onnx"),
+    "hal": os.path.join(VOICES_DIR, "hal", "hal.onnx"),
 }
+
+# Allow an explicit override of the model registry.
+_env_models = os.environ.get("PIPER_TTS_MODELS")
+if _env_models:
+    try:
+        MODELS = {**DEFAULT_MODELS, **json.loads(_env_models)}
+    except Exception:  # noqa: BLE001 (intentional catch-all in standalone server)
+        MODELS = dict(DEFAULT_MODELS)
+else:
+    MODELS = DEFAULT_MODELS
 
 
 class Handler(BaseHTTPRequestHandler):
