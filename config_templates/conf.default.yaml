@@ -432,7 +432,18 @@ character_config:
       base_url: 'http://localhost:8880/v1' # Base URL of the TTS server
       file_extension: 'mp3' # Audio file format ('mp3' or 'wav')
 
-    # For more details, see: https://platform.minimaxi.com/document/Announcement
+    openai_compat_tts: # requests-based OpenAI-compatible TTS (offline-friendly, no SDK dep)
+      # Mirrors openai_compat_asr on the speech-IN side. Points at any server
+      # implementing POST /v1/audio/speech (e.g. local Kokoro, fish-speech).
+      base_url: 'http://localhost:8880/v1' # Base URL of the TTS server
+      model: 'kokoro' # Model name expected by the server (e.g., 'kokoro', 'tts-1')
+      voice: 'af_sky' # Voice name expected by the server (e.g., 'af_sky', 'alloy')
+      api_key: 'not-needed' # API key if required by the server (often a dummy value locally)
+      file_extension: 'mp3' # Audio file format (mp3, wav, ogg, opus, aac, flac)
+      speed: 1.0 # Speech speed multiplier (0.25-4.0)
+      timeout: 60 # Request timeout in seconds
+
+    # For more details, see: https://platform.minimax.com/document/Announcement
     minimax_tts:
       group_id: '' # Your minimax group_id
       api_key: '' # Your minimax api_key

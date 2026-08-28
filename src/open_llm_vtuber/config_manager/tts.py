@@ -483,6 +483,54 @@ class OpenAITTSConfig(I18nMixin):
     }
 
 
+class OpenAICompatTTSConfig(I18nMixin):
+    """Configuration for an OpenAI-compatible TTS endpoint (e.g. a local
+    Kokoro / fish-speech server). Keeps speech synthesis fully offline when
+    pointed at a local server. This is the speech-OUT counterpart to
+    OpenAICompatASRConfig on the ASR side.
+    """
+
+    base_url: str = Field("http://localhost:8880/v1", alias="base_url")
+    model: str = Field("kokoro", alias="model")
+    voice: str = Field("af_sky", alias="voice")
+    api_key: str = Field("not-needed", alias="api_key")
+    file_extension: Literal["mp3", "wav", "ogg", "opus", "aac", "flac"] = Field(
+        "mp3", alias="file_extension"
+    )
+    speed: float = Field(1.0, alias="speed")
+    timeout: int = Field(60, alias="timeout")
+
+    DESCRIPTIONS: ClassVar[dict[str, Description]] = {
+        "base_url": Description(
+            en="Base URL of the OpenAI-compatible TTS server (e.g. http://localhost:8880/v1)",
+            zh="兼容 OpenAI 的 TTS 服务的基础 URL（如 http://localhost:8880/v1）",
+        ),
+        "model": Description(
+            en="Model name expected by the server (e.g. 'kokoro', 'tts-1')",
+            zh="服务器期望的模型名称（如 'kokoro'、'tts-1'）",
+        ),
+        "voice": Description(
+            en="Voice name(s) expected by the server (e.g. 'af_sky', 'alloy')",
+            zh="服务器期望的语音名称（如 'af_sky'、'alloy'）",
+        ),
+        "api_key": Description(
+            en="API key if required by the server (often a dummy value for local servers)",
+            zh="服务器所需的 API 密钥（本地服务通常为占位值）",
+        ),
+        "file_extension": Description(
+            en="Audio file format (mp3, wav, ogg, opus, aac, flac; defaults to mp3)",
+            zh="音频文件格式（mp3、wav、ogg、opus、aac、flac，默认为 mp3）",
+        ),
+        "speed": Description(
+            en="Speech speed multiplier (OpenAI range 0.25-4.0, defaults to 1.0)",
+            zh="语速倍率（OpenAI 范围 0.25-4.0，默认 1.0）",
+        ),
+        "timeout": Description(
+            en="Request timeout in seconds", zh="请求超时时间（秒）"
+        ),
+    }
+
+
 class SparkTTSConfig(I18nMixin):
     """Configuration for Spark TTS."""
 
@@ -699,6 +747,7 @@ class TTSConfig(I18nMixin):
         "sherpa_onnx_tts",
         "siliconflow_tts",
         "openai_tts",  # Add openai_tts here
+        "openai_compat_tts",  # requests-based, offline-friendly OpenAI-compatible TTS
         "spark_tts",
         "minimax_tts",
         "elevenlabs_tts",
@@ -719,6 +768,7 @@ class TTSConfig(I18nMixin):
     sherpa_onnx_tts: SherpaOnnxTTSConfig | None = Field(None, alias="sherpa_onnx_tts")
     siliconflow_tts: SiliconFlowTTSConfig | None = Field(None, alias="siliconflow_tts")
     openai_tts: OpenAITTSConfig | None = Field(None, alias="openai_tts")
+    openai_compat_tts: OpenAICompatTTSConfig | None = Field(None, alias="openai_compat_tts")
     spark_tts: SparkTTSConfig | None = Field(None, alias="spark_tts")
     minimax_tts: MinimaxTTSConfig | None = Field(None, alias="minimax_tts")
     elevenlabs_tts: ElevenLabsTTSConfig | None = Field(None, alias="elevenlabs_tts")
@@ -755,6 +805,10 @@ class TTSConfig(I18nMixin):
         ),
         "openai_tts": Description(
             en="Configuration for OpenAI-compatible TTS", zh="OpenAI 兼容 TTS 配置"
+        ),
+        "openai_compat_tts": Description(
+            en="Configuration for requests-based OpenAI-compatible TTS (offline-friendly)",
+            zh="基于 requests 的兼容 OpenAI TTS 配置（可完全离线）",
         ),
         "spark_tts": Description(en="Configuration for Spark TTS", zh="Spark TTS 配置"),
         "minimax_tts": Description(
@@ -800,6 +854,8 @@ class TTSConfig(I18nMixin):
             values.siliconflow_tts.model_validate(values.siliconflow_tts.model_dump())
         elif tts_model == "openai_tts" and values.openai_tts is not None:
             values.openai_tts.model_validate(values.openai_tts.model_dump())
+        elif tts_model == "openai_compat_tts" and values.openai_compat_tts is not None:
+            values.openai_compat_tts.model_validate(values.openai_compat_tts.model_dump())
         elif tts_model == "spark_tts" and values.spark_tts is not None:
             values.spark_tts.model_validate(values.spark_tts.model_dump())
         elif tts_model == "minimax_tts" and values.minimax_tts is not None:

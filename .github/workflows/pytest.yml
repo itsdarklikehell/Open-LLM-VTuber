@@ -1,0 +1,35 @@
+name: pytest
+
+# Test-only CI. Deliberately EXCLUDES ruff: the repo carries ~980
+# pre-existing Ruff violations repo-wide, so a lint+test gate would be
+# red regardless of changes. This workflow enforces only that the
+# offline test suite stays green.
+#
+# The suite (tests/) is fully offline: it mocks all HTTP and needs no
+# GPU, API key, or running server. New engines (openai_compat_tts /
+# openai_compat_asr) and their configs are exercised here.
+on:
+  push:
+    branches: [feat/tts-openai-compat]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          python-version: "3.12"
+
+      # Install only what the offline suite needs (avoids pulling the
+      # heavy runtime deps like torch). pytest.ini sets pythonpath=src
+      # so the in-tree package imports without an editable install.
+      - name: Install test dependencies
+        run: uv pip install --system pytest numpy requests loguru pydantic ruamel-yaml chardet pyyaml
+
+      - name: Run offline test suite
+        run: python -m pytest tests/ -q -p no:cacheprovider
