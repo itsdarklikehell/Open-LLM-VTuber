@@ -28,8 +28,14 @@ jobs:
       # Install only what the offline suite needs (avoids pulling the
       # heavy runtime deps like torch). pytest.ini sets pythonpath=src
       # so the in-tree package imports without an editable install.
-      - name: Install test dependencies
-        run: uv pip install --system pytest numpy requests loguru pydantic ruamel-yaml chardet pyyaml
+      # Use a venv (not `--system`): GitHub runners have an externally
+      # managed system Python (PEP 668), so `--system` is rejected.
+      # setup-uv already provisions a .venv on the runner, so recreate it
+      # cleanly with --clear (PEP 668 makes --system installs fail).
+      - name: Create venv and install test dependencies
+        run: |
+          uv venv --clear .venv
+          uv pip install --python .venv/bin/python pytest numpy requests loguru pydantic ruamel-yaml chardet pyyaml
 
       - name: Run offline test suite
-        run: python -m pytest tests/ -q -p no:cacheprovider
+        run: .venv/bin/python -m pytest tests/ -q -p no:cacheprovider
