@@ -30,9 +30,11 @@ jobs:
       # so the in-tree package imports without an editable install.
       # Use a venv (not `--system`): GitHub runners have an externally
       # managed system Python (PEP 668), so `--system` is rejected.
+      # setup-uv already provisions a .venv on the runner, so recreate it
+      # cleanly with --clear (PEP 668 makes --system installs fail).
       - name: Create venv and install test dependencies
         run: |
-          uv venv .venv
+          uv venv --clear .venv
           uv pip install --python .venv/bin/python pytest numpy requests loguru pydantic ruamel-yaml chardet pyyaml
 
       - name: Run offline test suite
