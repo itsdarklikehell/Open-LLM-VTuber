@@ -173,7 +173,10 @@ character_config:
   # === Automatic Speech Recognition ===
   asr_config:
     # speech to text model options: 'faster_whisper', 'whisper_cpp', 'whisper', 'azure_asr', 'fun_asr', 'groq_whisper_asr', 'openai_compat_asr', 'sherpa_onnx_asr'
-    asr_model: 'openai_compat_asr'
+    # NOTE: 'openai_compat_asr' (new) is opt-in — it requires a local OpenAI-compatible
+    # /v1/audio/transcriptions server. Keep the default on 'sherpa_onnx_asr' so fresh
+    # installs work out of the box without a local ASR endpoint configured.
+    asr_model: 'sherpa_onnx_asr'
 
     azure_asr:
       api_key: 'azure_api_key'
