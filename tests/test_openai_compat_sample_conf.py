@@ -16,7 +16,7 @@ import os
 import pytest
 import ruamel.yaml
 
-import open_llm_vtuber.asr.openai_compat_asr  # noqa: F401  (ensure importable)
+import open_llm_vtuber.asr.openai_compat_asr
 import open_llm_vtuber.tts.openai_compat_tts  # noqa: F401  (ensure importable)
 from open_llm_vtuber.asr.openai_compat_asr import VoiceRecognition
 from open_llm_vtuber.tts.openai_compat_tts import TTSEngine

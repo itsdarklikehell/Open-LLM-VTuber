@@ -17,7 +17,7 @@ import os
 from open_llm_vtuber.asr.asr_factory import ASRFactory
 from open_llm_vtuber.asr.openai_compat_asr import VoiceRecognition as ExpectedASR
 from open_llm_vtuber.config_manager.asr import ASRConfig, OpenAICompatASRConfig
-from open_llm_vtuber.config_manager.tts import TTSConfig, OpenAICompatTTSConfig
+from open_llm_vtuber.config_manager.tts import OpenAICompatTTSConfig, TTSConfig
 from open_llm_vtuber.tts.openai_compat_tts import TTSEngine as ExpectedTTS
 from open_llm_vtuber.tts.tts_factory import TTSFactory
 

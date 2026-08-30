@@ -8,9 +8,9 @@ text-vs-JSON response branches, error handling, and language passthrough.
 import io
 import json
 import wave
+from unittest.mock import patch
 
 import numpy as np
-from unittest.mock import patch
 
 import open_llm_vtuber.asr.openai_compat_asr as asr_mod
 from open_llm_vtuber.asr.openai_compat_asr import VoiceRecognition

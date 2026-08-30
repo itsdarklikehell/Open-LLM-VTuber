@@ -7,8 +7,6 @@ stubbed A2A transport (no real agent / network required).
 import importlib.util
 import os
 
-import pytest
-
 
 def _load():
     spec = importlib.util.spec_from_file_location(
