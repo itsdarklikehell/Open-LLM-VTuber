@@ -1,16 +1,13 @@
 name: pytest
 
-# Test-only CI. Deliberately EXCLUDES ruff: the repo carries ~980
-# pre-existing Ruff violations repo-wide, so a lint+test gate would be
-# red regardless of changes. This workflow enforces only that the
-# offline test suite stays green.
-#
-# The suite (tests/) is fully offline: it mocks all HTTP and needs no
-# GPU, API key, or running server. New engines (openai_compat_tts /
-# openai_compat_asr) and their configs are exercised here.
+# Test-only CI. Runs the fully offline test suite (tests/ mocks all HTTP and
+# needs no GPU, API key, or running server). It is deliberately SEPARATE from
+# the ruff gate (see ruff.yml): this job fails only on real test regressions,
+# not on lint noise. Runs on every push to main and every PR targeting main,
+# so the merge gate is enforced before code lands on the default branch.
 on:
   push:
-    branches: [feat/tts-openai-compat]
+    branches: [main]
   pull_request:
     branches: [main]
 
@@ -25,13 +22,11 @@ jobs:
         with:
           python-version: "3.12"
 
-      # Install only what the offline suite needs (avoids pulling the
-      # heavy runtime deps like torch). pytest.ini sets pythonpath=src
-      # so the in-tree package imports without an editable install.
-      # Use a venv (not `--system`): GitHub runners have an externally
-      # managed system Python (PEP 668), so `--system` is rejected.
-      # setup-uv already provisions a .venv on the runner, so recreate it
-      # cleanly with --clear (PEP 668 makes --system installs fail).
+      # Install only what the offline suite needs (avoids pulling heavy runtime
+      # deps like torch). pytest.ini sets pythonpath=src so the in-tree package
+      # imports without an editable install. Use a venv (not `--system`): GitHub
+      # runners have an externally managed system Python (PEP 668), so setup-uv
+      # already provisions a .venv; recreate it cleanly with --clear.
       - name: Create venv and install test dependencies
         run: |
           uv venv --clear .venv

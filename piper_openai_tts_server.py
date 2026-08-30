@@ -91,34 +91,16 @@ class Handler(BaseHTTPRequestHandler):
             self.end_headers()
             return
         text = req.get("input", "")
-        fmt = (req.get("response_format") or "wav").lower()
+        ext = response_ext(req.get("response_format"))
         # choose model by voice name, then model name, default hal
-        name = (req.get("voice") or req.get("model") or "hal").lower()
-        model = MODELS.get(name, MODELS["hal"])
+        model = resolve_model(req.get("voice") or req.get("model"))
         if not text.strip():
             self.send_response(400)
             self._cors()
             self.end_headers()
             return
-        ext = "mp3" if fmt == "mp3" else "wav"
-        fd, tmppath = tempfile.mkstemp(suffix="." + ext)
-        os.close(fd)
         try:
-            proc = subprocess.run(  # noqa: PLW1510 (non-zero exit handled by caller)
-                [PIPER_BIN, "--model", model, "--output_file", tmppath],
-                input=text, capture_output=True, text=True, timeout=120,
-            )
-            if proc.returncode != 0:
-                raise RuntimeError(proc.stderr[:300])
-            with open(tmppath, "rb") as f:
-                audio = f.read()
-            ctype = "audio/mpeg" if ext == "mp3" else "audio/wav"
-            self.send_response(200)
-            self.send_header("Content-Type", ctype)
-            self._cors()
-            self.send_header("Content-Length", str(len(audio)))
-            self.end_headers()
-            self.wfile.write(audio)
+            audio = synthesize(text, model, ext)
         except Exception as e:  # noqa: BLE001 (intentional catch-all in standalone server)
             err = f"TTS error: {e}".encode()
             self.send_response(500)
@@ -127,11 +109,50 @@ class Handler(BaseHTTPRequestHandler):
             self.send_header("Content-Length", str(len(err)))
             self.end_headers()
             self.wfile.write(err)
-        finally:
-            try:
-                os.remove(tmppath)
-            except Exception:  # noqa: BLE001,S110 (intentional catch-all + swallow in standalone server)
-                pass
+            return
+        ctype = "audio/mpeg" if ext == "mp3" else "audio/wav"
+        self.send_response(200)
+        self.send_header("Content-Type", ctype)
+        self._cors()
+        self.send_header("Content-Length", str(len(audio)))
+        self.end_headers()
+        self.wfile.write(audio)
+
+
+def resolve_model(name: str | None) -> str:
+    """Map a voice/model request name to an onnx path (fallback: hal)."""
+    key = (name or "hal").lower()
+    return MODELS.get(key, MODELS["hal"])
+
+
+def response_ext(fmt: str | None) -> str:
+    """Map a requested response_format to a file extension (fallback: wav)."""
+    return "mp3" if (fmt or "wav").lower() == "mp3" else "wav"
+
+
+def synthesize(text: str, model: str, ext: str, timeout: int = 120) -> bytes:
+    """Render `text` with the given Piper `model` and return raw audio bytes.
+
+    Runs the Piper CLI to a temp file, reads it back, and removes the temp
+    file even on failure. Raises RuntimeError if Piper exits non-zero. The
+    caller is responsible for HTTP plumbing (status/headers/body).
+    """
+    fd, tmppath = tempfile.mkstemp(suffix="." + ext)
+    os.close(fd)
+    try:
+        proc = subprocess.run(  # noqa: PLW1510 (non-zero exit handled by caller)
+            [PIPER_BIN, "--model", model, "--output_file", tmppath],
+            input=text, capture_output=True, text=True, timeout=timeout,
+        )
+        if proc.returncode != 0:
+            raise RuntimeError(proc.stderr[:300])
+        with open(tmppath, "rb") as f:
+            return f.read()
+    finally:
+        try:
+            os.remove(tmppath)
+        except Exception:  # noqa: BLE001,S110 (intentional catch-all + swallow in standalone server)
+            pass
 
 
 if __name__ == "__main__":

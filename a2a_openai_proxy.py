@@ -61,8 +61,13 @@ OPENCLAW_A2A_URL = os.environ.get(
     "OPENCLAW_A2A_URL", "http://localhost:18800/a2a/jsonrpc"
 )
 
+# Optional per-route token override. The GLaDOS/Hermes route should carry
+# Hermes's A2A token; fall back to the OpenClaw token only if unset (common
+# co-resident case where both cores share one token).
+HERMES_A2A_TOKEN = os.environ.get("HERMES_A2A_TOKEN")
+
 ROUTES = {
-    "glados": {"url": HERMES_A2A_URL, "token": A2A_TOKEN},
+    "glados": {"url": HERMES_A2A_URL, "token": HERMES_A2A_TOKEN or A2A_TOKEN},
     "wheatley": {"url": OPENCLAW_A2A_URL, "token": A2A_TOKEN},
 }
 
