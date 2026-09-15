@@ -33,43 +33,33 @@ import time
 import urllib.error
 import urllib.request
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+from pathlib import Path
+
+import a2a_proxy_routes as routes_mod
 
 PORT = int(os.environ.get("A2A_PROXY_PORT", "8890"))
 CONTEXT_PREFIX = os.environ.get("A2A_PROXY_CONTEXT_PREFIX", "ollvtuber")
 
-# A2A endpoints + token (read from OpenClaw config so we don't hardcode secrets)
-OPENCLAW_CONFIG = os.environ.get(
-    "OPENCLAW_CONFIG", os.path.expanduser("~/.openclaw/openclaw.json")
+# Route tabel: probeer eerst routes.json (via A2A_PROXY_ROUTES), anders gebruik
+# de ingebouwde defaults als fallbacks voor ontwikkeling.
+_ROUTES_PATH = os.environ.get(
+    "A2A_PROXY_ROUTES", str(Path(__file__).with_name("routes.json"))
 )
-
-
-def _load_cfg():
-    cfg_path = OPENCLAW_CONFIG
-    try:
-        with open(cfg_path) as f:
-            oc = json.load(f)
-        tok = oc["plugins"]["entries"]["a2a-gateway"]["config"]["security"]["token"]
-    except Exception:  # noqa: BLE001 (intentional catch-all in standalone server)
-        tok = ""
-    return tok
-
-
-A2A_TOKEN = _load_cfg()
-
-HERMES_A2A_URL = os.environ.get("HERMES_A2A_URL", "http://localhost:9900/a2a/jsonrpc")
-OPENCLAW_A2A_URL = os.environ.get(
-    "OPENCLAW_A2A_URL", "http://localhost:18800/a2a/jsonrpc"
-)
-
-# Optional per-route token override. The GLaDOS/Hermes route should carry
-# Hermes's A2A token; fall back to the OpenClaw token only if unset (common
-# co-resident case where both cores share one token).
-HERMES_A2A_TOKEN = os.environ.get("HERMES_A2A_TOKEN")
-
-ROUTES = {
-    "glados": {"url": HERMES_A2A_URL, "token": HERMES_A2A_TOKEN or A2A_TOKEN},
-    "wheatley": {"url": OPENCLAW_A2A_URL, "token": A2A_TOKEN},
-}
+ROUTES = routes_mod.load_routes(Path(_ROUTES_PATH))
+if not ROUTES:
+    # Fallback routes voor lokale ontwikkeling zonder routes.json.
+    ROUTES = {
+        "glados": {
+            "url": os.environ.get("HERMES_A2A_URL", "http://localhost:9900/a2a/jsonrpc"),
+            "token_env": "HERMES_A2A_TOKEN",
+        },
+        "wheatley": {
+            "url": os.environ.get("OPENCLAW_A2A_URL", "http://localhost:18800/a2a/jsonrpc"),
+            "token_env": "OPENCLAW_A2A_TOKEN",
+        },
+    }
+    # Los tokens op voor de fallback (dezelfde regels als routes.json).
+    ROUTES = {k: {"url": v["url"], "token": routes_mod.load_token(v)} for k, v in ROUTES.items()}
 
 
 def _rpc(endpoint, token, method, params, timeout):
