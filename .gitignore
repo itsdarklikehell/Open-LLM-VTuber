@@ -75,4 +75,5 @@ tmp/
 private/
 mcp_servers.json
 
-.vscode/gource.mp4
+.vscode/
+gource.mp4
