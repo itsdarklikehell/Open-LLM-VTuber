@@ -1,7 +1,7 @@
 # config_manager/tts.py
 from typing import ClassVar, Literal
 
-from pydantic import Field, ValidationInfo, model_validator
+from pydantic import Field, model_validator
 
 from .i18n import Description, I18nMixin
 
@@ -824,47 +824,47 @@ class TTSConfig(I18nMixin):
     }
 
     @model_validator(mode="after")
-    def check_tts_config(cls, values: "TTSConfig", info: ValidationInfo):
-        tts_model = values.tts_model
+    def check_tts_config(self):
+        tts_model = self.tts_model
 
         # Only validate the selected TTS model
-        if tts_model == "azure_tts" and values.azure_tts is not None:
-            values.azure_tts.model_validate(values.azure_tts.model_dump())
-        elif tts_model == "bark_tts" and values.bark_tts is not None:
-            values.bark_tts.model_validate(values.bark_tts.model_dump())
-        elif tts_model == "edge_tts" and values.edge_tts is not None:
-            values.edge_tts.model_validate(values.edge_tts.model_dump())
-        elif tts_model == "cosyvoice_tts" and values.cosyvoice_tts is not None:
-            values.cosyvoice_tts.model_validate(values.cosyvoice_tts.model_dump())
-        elif tts_model == "cosyvoice2_tts" and values.cosyvoice2_tts is not None:
-            values.cosyvoice2_tts.model_validate(values.cosyvoice2_tts.model_dump())
-        elif tts_model == "melo_tts" and values.melo_tts is not None:
-            values.melo_tts.model_validate(values.melo_tts.model_dump())
-        elif tts_model == "coqui_tts" and values.coqui_tts is not None:
-            values.coqui_tts.model_validate(values.coqui_tts.model_dump())
-        elif tts_model == "x_tts" and values.x_tts is not None:
-            values.x_tts.model_validate(values.x_tts.model_dump())
-        elif tts_model == "gpt_sovits_tts" and values.gpt_sovits_tts is not None:
-            values.gpt_sovits_tts.model_validate(values.gpt_sovits_tts.model_dump())
-        elif tts_model == "fish_api_tts" and values.fish_api_tts is not None:
-            values.fish_api_tts.model_validate(values.fish_api_tts.model_dump())
-        elif tts_model == "sherpa_onnx_tts" and values.sherpa_onnx_tts is not None:
-            values.sherpa_onnx_tts.model_validate(values.sherpa_onnx_tts.model_dump())
-        elif tts_model == "siliconflow_tts" and values.siliconflow_tts is not None:
-            values.siliconflow_tts.model_validate(values.siliconflow_tts.model_dump())
-        elif tts_model == "openai_tts" and values.openai_tts is not None:
-            values.openai_tts.model_validate(values.openai_tts.model_dump())
-        elif tts_model == "openai_compat_tts" and values.openai_compat_tts is not None:
-            values.openai_compat_tts.model_validate(values.openai_compat_tts.model_dump())
-        elif tts_model == "spark_tts" and values.spark_tts is not None:
-            values.spark_tts.model_validate(values.spark_tts.model_dump())
-        elif tts_model == "minimax_tts" and values.minimax_tts is not None:
-            values.minimax_tts.model_validate(values.minimax_tts.model_dump())
-        elif tts_model == "elevenlabs_tts" and values.elevenlabs_tts is not None:
-            values.elevenlabs_tts.model_validate(values.elevenlabs_tts.model_dump())
-        elif tts_model == "cartesia_tts" and values.cartesia_tts is not None:
-            values.cartesia_tts.model_validate(values.cartesia_tts.model_dump())
+        if tts_model == "azure_tts" and self.azure_tts is not None:
+            self.azure_tts.model_validate(self.azure_tts.model_dump())
+        elif tts_model == "bark_tts" and self.bark_tts is not None:
+            self.bark_tts.model_validate(self.bark_tts.model_dump())
+        elif tts_model == "edge_tts" and self.edge_tts is not None:
+            self.edge_tts.model_validate(self.edge_tts.model_dump())
+        elif tts_model == "cosyvoice_tts" and self.cosyvoice_tts is not None:
+            self.cosyvoice_tts.model_validate(self.cosyvoice_tts.model_dump())
+        elif tts_model == "cosyvoice2_tts" and self.cosyvoice2_tts is not None:
+            self.cosyvoice2_tts.model_validate(self.cosyvoice2_tts.model_dump())
+        elif tts_model == "melo_tts" and self.melo_tts is not None:
+            self.melo_tts.model_validate(self.melo_tts.model_dump())
+        elif tts_model == "coqui_tts" and self.coqui_tts is not None:
+            self.coqui_tts.model_validate(self.coqui_tts.model_dump())
+        elif tts_model == "x_tts" and self.x_tts is not None:
+            self.x_tts.model_validate(self.x_tts.model_dump())
+        elif tts_model == "gpt_sovits_tts" and self.gpt_sovits_tts is not None:
+            self.gpt_sovits_tts.model_validate(self.gpt_sovits_tts.model_dump())
+        elif tts_model == "fish_api_tts" and self.fish_api_tts is not None:
+            self.fish_api_tts.model_validate(self.fish_api_tts.model_dump())
+        elif tts_model == "sherpa_onnx_tts" and self.sherpa_onnx_tts is not None:
+            self.sherpa_onnx_tts.model_validate(self.sherpa_onnx_tts.model_dump())
+        elif tts_model == "siliconflow_tts" and self.siliconflow_tts is not None:
+            self.siliconflow_tts.model_validate(self.siliconflow_tts.model_dump())
+        elif tts_model == "openai_tts" and self.openai_tts is not None:
+            self.openai_tts.model_validate(self.openai_tts.model_dump())
+        elif tts_model == "openai_compat_tts" and self.openai_compat_tts is not None:
+            self.openai_compat_tts.model_validate(self.openai_compat_tts.model_dump())
+        elif tts_model == "spark_tts" and self.spark_tts is not None:
+            self.spark_tts.model_validate(self.spark_tts.model_dump())
+        elif tts_model == "minimax_tts" and self.minimax_tts is not None:
+            self.minimax_tts.model_validate(self.minimax_tts.model_dump())
+        elif tts_model == "elevenlabs_tts" and self.elevenlabs_tts is not None:
+            self.elevenlabs_tts.model_validate(self.elevenlabs_tts.model_dump())
+        elif tts_model == "cartesia_tts" and self.cartesia_tts is not None:
+            self.cartesia_tts.model_validate(self.cartesia_tts.model_dump())
 
-        elif tts_model == "piper_tts" and values.piper_tts is not None:
-            values.piper_tts.model_validate(values.piper_tts.model_dump())
-        return values
+        elif tts_model == "piper_tts" and self.piper_tts is not None:
+            self.piper_tts.model_validate(self.piper_tts.model_dump())
+        return self

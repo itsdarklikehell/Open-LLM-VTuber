@@ -1,7 +1,7 @@
 # config_manager/translate.py
 from typing import ClassVar, Literal
 
-from pydantic import Field, ValidationInfo, model_validator
+from pydantic import Field, model_validator
 
 from .i18n import Description, I18nMixin
 
@@ -82,21 +82,21 @@ class TranslatorConfig(I18nMixin):
     }
 
     @model_validator(mode="after")
-    def check_translator_config(cls, values: "TranslatorConfig", info: ValidationInfo):
-        translate_audio = values.translate_audio
-        translate_provider = values.translate_provider
+    def check_translator_config(self):
+        translate_audio = self.translate_audio
+        translate_provider = self.translate_provider
 
         if translate_audio:
-            if translate_provider == "deeplx" and values.deeplx is None:
+            if translate_provider == "deeplx" and self.deeplx is None:
                 raise ValueError(
                     "DeepLX configuration must be provided when translate_audio is True and translate_provider is 'deeplx'"
                 )
-            elif translate_provider == "tencent" and values.tencent is None:
+            elif translate_provider == "tencent" and self.tencent is None:
                 raise ValueError(
                     "Tencent configuration must be provided when translate_audio is True and translate_provider is 'tencent'"
                 )
 
-        return values
+        return self
 
 
 class TTSPreprocessorConfig(I18nMixin):

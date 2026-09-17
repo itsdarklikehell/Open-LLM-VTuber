@@ -1,7 +1,7 @@
 # config_manager/vad.py
 from typing import ClassVar, Literal
 
-from pydantic import Field, ValidationInfo, model_validator
+from pydantic import Field, model_validator
 
 from .i18n import Description, I18nMixin
 
@@ -56,11 +56,11 @@ class VADConfig(I18nMixin):
     }
 
     @model_validator(mode="after")
-    def check_asr_config(cls, values: "VADConfig", info: ValidationInfo):
-        vad_model = values.silero_vad
+    def check_asr_config(self):
+        vad_model = self.silero_vad
 
         # Only validate the selected ASR model
-        if vad_model == "silero_vad" and values.silero_vad is not None:
-            values.silero_vad.model_validate(values.silero_vad.model_dump())
+        if vad_model == "silero_vad" and self.silero_vad is not None:
+            self.silero_vad.model_validate(self.silero_vad.model_dump())
 
-        return values
+        return self

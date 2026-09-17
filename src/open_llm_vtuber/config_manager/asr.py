@@ -1,7 +1,7 @@
 # config_manager/asr.py
 from typing import ClassVar, Literal
 
-from pydantic import Field, ValidationInfo, model_validator
+from pydantic import Field, model_validator
 
 from .i18n import Description, I18nMixin
 
@@ -293,57 +293,57 @@ class SherpaOnnxASRConfig(I18nMixin):
     }
 
     @model_validator(mode="after")
-    def check_model_paths(cls, values: "SherpaOnnxASRConfig", info: ValidationInfo):
-        model_type = values.model_type
+    def check_model_paths(self):
+        model_type = self.model_type
 
         if model_type == "transducer":
-            if not all([values.encoder, values.decoder, values.joiner, values.tokens]):
+            if not all([self.encoder, self.decoder, self.joiner, self.tokens]):
                 raise ValueError(
                     "encoder, decoder, joiner, and tokens must be provided for transducer model type"
                 )
         elif model_type == "paraformer":
-            if not all([values.paraformer, values.tokens]):
+            if not all([self.paraformer, self.tokens]):
                 raise ValueError(
                     "paraformer and tokens must be provided for paraformer model type"
                 )
         elif model_type == "nemo_ctc":
-            if not all([values.nemo_ctc, values.tokens]):
+            if not all([self.nemo_ctc, self.tokens]):
                 raise ValueError(
                     "nemo_ctc and tokens must be provided for nemo_ctc model type"
                 )
         elif model_type == "wenet_ctc":
-            if not all([values.wenet_ctc, values.tokens]):
+            if not all([self.wenet_ctc, self.tokens]):
                 raise ValueError(
                     "wenet_ctc and tokens must be provided for wenet_ctc model type"
                 )
         elif model_type == "tdnn_ctc":
-            if not all([values.tdnn_model, values.tokens]):
+            if not all([self.tdnn_model, self.tokens]):
                 raise ValueError(
                     "tdnn_model and tokens must be provided for tdnn_ctc model type"
                 )
         elif model_type == "whisper":
-            if not all([values.whisper_encoder, values.whisper_decoder, values.tokens]):
+            if not all([self.whisper_encoder, self.whisper_decoder, self.tokens]):
                 raise ValueError(
                     "whisper_encoder, whisper_decoder, and tokens must be provided for whisper model type"
                 )
         elif model_type == "sense_voice":
-            if not all([values.sense_voice, values.tokens]):
+            if not all([self.sense_voice, self.tokens]):
                 raise ValueError(
                     "sense_voice and tokens must be provided for sense_voice model type"
                 )
         elif model_type == "fire_red_asr":  # noqa: SIM102
             if not all(
                 [
-                    values.fire_red_asr_encoder,
-                    values.fire_red_asr_decoder,
-                    values.tokens,
+                    self.fire_red_asr_encoder,
+                    self.fire_red_asr_decoder,
+                    self.tokens,
                 ]
             ):
                 raise ValueError(
                     "fire_red_asr_encoder, fire_red_asr_decoder, and tokens must be provided for fire_red_asr model type"
                 )
 
-        return values
+        return self
 
 
 class ASRConfig(I18nMixin):
@@ -394,30 +394,30 @@ class ASRConfig(I18nMixin):
     }
 
     @model_validator(mode="after")
-    def check_asr_config(cls, values: "ASRConfig", info: ValidationInfo):
-        asr_model = values.asr_model
+    def check_asr_config(self):
+        asr_model = self.asr_model
 
         # Only validate the selected ASR model
-        if asr_model == "AzureASR" and values.azure_asr is not None:
-            values.azure_asr.model_validate(values.azure_asr.model_dump())
-        elif asr_model == "Faster-Whisper" and values.faster_whisper is not None:
-            values.faster_whisper.model_validate(values.faster_whisper.model_dump())
-        elif asr_model == "WhisperCPP" and values.whisper_cpp is not None:
-            values.whisper_cpp.model_validate(values.whisper_cpp.model_dump())
-        elif asr_model == "Whisper" and values.whisper is not None:
-            values.whisper.model_validate(values.whisper.model_dump())
-        elif asr_model == "FunASR" and values.fun_asr is not None:
-            values.fun_asr.model_validate(values.fun_asr.model_dump())
-        elif asr_model == "GroqWhisperASR" and values.groq_whisper_asr is not None:
-            values.groq_whisper_asr.model_validate(values.groq_whisper_asr.model_dump())
+        if asr_model == "AzureASR" and self.azure_asr is not None:
+            self.azure_asr.model_validate(self.azure_asr.model_dump())
+        elif asr_model == "Faster-Whisper" and self.faster_whisper is not None:
+            self.faster_whisper.model_validate(self.faster_whisper.model_dump())
+        elif asr_model == "WhisperCPP" and self.whisper_cpp is not None:
+            self.whisper_cpp.model_validate(self.whisper_cpp.model_dump())
+        elif asr_model == "Whisper" and self.whisper is not None:
+            self.whisper.model_validate(self.whisper.model_dump())
+        elif asr_model == "FunASR" and self.fun_asr is not None:
+            self.fun_asr.model_validate(self.fun_asr.model_dump())
+        elif asr_model == "GroqWhisperASR" and self.groq_whisper_asr is not None:
+            self.groq_whisper_asr.model_validate(self.groq_whisper_asr.model_dump())
         elif (
             asr_model == "OpenAICompatASR"
-            and values.openai_compat_asr is not None
+            and self.openai_compat_asr is not None
         ):
-            values.openai_compat_asr.model_validate(
-                values.openai_compat_asr.model_dump()
+            self.openai_compat_asr.model_validate(
+                self.openai_compat_asr.model_dump()
             )
-        elif asr_model == "SherpaOnnxASR" and values.sherpa_onnx_asr is not None:
-            values.sherpa_onnx_asr.model_validate(values.sherpa_onnx_asr.model_dump())
+        elif asr_model == "SherpaOnnxASR" and self.sherpa_onnx_asr is not None:
+            self.sherpa_onnx_asr.model_validate(self.sherpa_onnx_asr.model_dump())
 
-        return values
+        return self
