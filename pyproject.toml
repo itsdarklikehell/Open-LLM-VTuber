@@ -5,50 +5,50 @@ description = "Talk to any LLM with hands-free voice interaction, voice interrup
 readme = "README.md"
 requires-python = ">=3.10,<3.13"
 dependencies = [
-    "anthropic>=0.40.0",
-    "azure-cognitiveservices-speech>=1.41.1",
+    "anthropic>=1.11.0",
+    "azure-cognitiveservices-speech>=1.47.0",
     "chardet>=5.2.0",
-    "cartesia>=2.0.0", 
+    "cartesia>=2.0.17", 
     "edge-tts>=7.2.8",
-    "elevenlabs>=1.0.0",
+    "elevenlabs>=2.31.0",
     "fastapi[standard]>=0.142.2",
-    "groq>=0.13.0",
+    "groq>=1.0.0",
     "httpx>=0.28.1",
     "langdetect>=1.0.9",
-    "loguru>=0.7.2",
+    "loguru>=0.7.3",
     "mcp[cli]>=2.2.0",
     "numpy>=1.26.4,<2",
-    "onnxruntime>=1.20.1",
+    "onnxruntime>=1.23.2",
     "openai>=3.22.1",
-    "pre-commit>=4.1.0",
+    "pre-commit>=4.5.1",
     "pydub>=0.25.1",
     "pysbd>=0.3.4",
-    "pyttsx3>=2.98",
-    "pyyaml>=6.0.2",
+    "pyttsx3>=2.99",
+    "pyyaml>=6.0.3",
     "requests>=2.34.2",
     "ruamel-yaml>=0.19.1",
-    "ruff>=0.8.6",
-    "scipy>=1.14.1",
-    "sherpa-onnx>=1.10.39",
-    "soundfile>=0.12.1",
-    "tomli>=2.2.1",
-    "torch==2.2.2; sys_platform == 'darwin' and platform_machine == 'x86_64'",
-    "torch>=2.6.0; sys_platform == 'darwin' and platform_machine == 'arm64'",
-    "torch>=2.6.0; sys_platform != 'darwin'",
+    "ruff>=0.16.10",
+    "scipy>=1.18.1",
+    "sherpa-onnx>=1.10.46",
+    "soundfile>=0.13.1",
+    "toml==0.10.2",
+    "torch==2.10.0 sys_platform == 'darwin' and platform_machine == 'x86_64'",
+    "torch>=2.10.0 sys_platform == 'darwin' and platform_machine == 'arm64'",
+    "torch>=2.10.0 sys_platform != 'darwin'",
     "tqdm>=4.70.1",
-    "uvicorn[standard]>=0.54.0",
-    "websocket-client>=1.8.0",
-    "letta-client>=0.1.100",
+    "uv==0.12.21",
+    "websocket-client>=1.9.0",
+    "letta-client>=1.7.6",
     "duckduckgo-mcp-server>=0.1.1",
 ]
 
 [project.optional-dependencies]
 bilibili = [
-    "aiohttp>=3.10.0",
+    "aiohttp>=3.14.3",
     "Brotli~=1.1.0",
     "yarl>=1.12.0,<2.0"
 ]
-test = ["pytest>=8.0"]
+test = ["pytest>=9.1.1"]
 
 [tool.pixi.project]
 channels = ["conda-forge"]
