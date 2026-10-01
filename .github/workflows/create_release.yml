@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Clone repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v5
         with:
           repository: Open-LLM-VTuber/Open-LLM-VTuber
           ref: ${{ github.event.inputs.target_branch }}
@@ -37,7 +37,7 @@ jobs:
 
       - name: Try with default branch
         if: steps.checkout.outcome == 'failure'
-        uses: actions/checkout@v3
+        uses: actions/checkout@v5
         with:
           repository: Open-LLM-VTuber/Open-LLM-VTuber
           ref: v1-release
@@ -57,7 +57,7 @@ jobs:
           ls -la config_templates/
 
       - name: Setup Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v6
         with:
           python-version: "3.10"
 
@@ -129,7 +129,7 @@ jobs:
       # If chosen, upload to GitHub Actions artifacts
       - name: Upload Chinese version to GitHub Actions artifacts
         if: ${{ github.event.inputs.create_github_release == 'true' }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: Open-LLM-VTuber-v${{ env.VERSION }}-zh
           path: Open-LLM-VTuber-v${{ env.VERSION }}-zh.zip
@@ -137,7 +137,7 @@ jobs:
 
       - name: Upload English version to GitHub Actions artifacts
         if: ${{ github.event.inputs.create_github_release == 'true' }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: Open-LLM-VTuber-v${{ env.VERSION }}-en
           path: Open-LLM-VTuber-v${{ env.VERSION }}-en.zip
@@ -145,7 +145,7 @@ jobs:
 
       - name: Upload Windows installer to GitHub Actions artifacts
         if: ${{ github.event.inputs.create_github_release == 'true' }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: Open-LLM-VTuber-v${{ env.VERSION }}-windows
           path: open-llm-vtuber-electron-*-setup.exe
@@ -153,7 +153,7 @@ jobs:
 
       - name: Upload macOS installer to GitHub Actions artifacts
         if: ${{ github.event.inputs.create_github_release == 'true' }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: Open-LLM-VTuber-v${{ env.VERSION }}-macos
           path: open-llm-vtuber-electron-*.dmg
@@ -224,7 +224,7 @@ jobs:
       # Upload download links as an artifact
       - name: Upload download links markdown
         if: ${{ github.event.inputs.upload_to_r2 == 'true' }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: download-links
           path: download-links.md
