@@ -121,6 +121,13 @@ Checkout the [development guide](https://docs.llmvtuber.com/docs/development-gui
 
 # 🎉🎉🎉 Related Projects
 
+[![CI](https://github.com/itsdarklikehell/Open-LLM-VTuber/actions/workflows/ci.yml/badge.svg)](https://github.com/itsdarklikehell/Open-LLM-VTuber/actions/workflows/ci.yml)
+[![Gource](https://github.com/itsdarklikehell/Open-LLM-VTuber/actions/workflows/gource.yml/badge.svg)](https://github.com/itsdarklikehell/Open-LLM-VTuber/actions/workflows/gource.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![GitHub issues](https://img.shields.io/github/issues/itsdarklikehell/Open-LLM-VTuber)](https://github.com/itsdarklikehell/Open-LLM-VTuber/issues)
+[![GitHub pull requests](https://img.shields.io/github/issues-pr/itsdarklikehell/Open-LLM-VTuber)](https://github.com/itsdarklikehell/Open-LLM-VTuber/pulls)
+
+
 [ylxmf2005/LLM-Live2D-Desktop-Assitant](https://github.com/ylxmf2005/LLM-Live2D-Desktop-Assitant)
 - Your Live2D desktop assistant powered by LLM! Available for both Windows and MacOS, it senses your screen, retrieves clipboard content, and responds to voice commands with a unique voice. Featuring voice wake-up, singing capabilities, and full computer control for seamless interaction with your favorite character.
 
