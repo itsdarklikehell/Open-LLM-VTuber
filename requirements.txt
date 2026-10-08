@@ -34,6 +34,8 @@ onnxruntime==1.23.2
     # via open-llm-vtuber (pyproject.toml)
 openai==2.15.0
     # via open-llm-vtuber (pyproject.toml)
+piper-tts==1.8.0
+    # via open-llm-vtuber (pyproject.toml)
 pre-commit==4.5.1
     # via open-llm-vtuber (pyproject.toml)
 pydub==0.25.1
